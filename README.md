@@ -14,8 +14,8 @@ The original and the python implementations are tested in the main.ipynb. It can
 To be able to use `utils_pcd.py` you need to enter the folder and run 
 
 ``
-setup.py build
-setup.py install
+ setup.py build
+ setup.py install
 ``
 
 This should install the library using the file I modified.
