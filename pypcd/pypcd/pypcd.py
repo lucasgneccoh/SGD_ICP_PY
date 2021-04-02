@@ -332,7 +332,7 @@ def point_cloud_to_fileobj(pc, fileobj, data_compression=None):
 
     header = write_header(metadata)
     fileobj.write(header.encode())
-    print(metadata)
+    # print(metadata)
     if metadata['data'].lower() == 'ascii':
         fmtstr = build_ascii_fmtstr(pc)
         np.savetxt(fileobj, pc.pc_data, fmt=fmtstr)
