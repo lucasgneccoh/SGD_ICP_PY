@@ -1,13 +1,6 @@
 import os
 import numpy as np
-import sys
-current_wd = 'C:\\Users\\lucas\\OneDrive\\Documentos\\GitHub\\SGD_ICP'
-if not current_wd in sys.path:
-  sys.path.insert(1,current_wd)
-
 from pypcd import pypcd as pcd
-os.chdir(current_wd)
-
 
 def quaternion_rotation_matrix(Q):
     """
@@ -49,26 +42,44 @@ def quaternion_rotation_matrix(Q):
                             
     return rot_matrix
 
+def roll_pitch_yaw(ax, ay, az):
+  cx, sx = np.cos(ax), np.sin(ax)
+  cy, sy = np.cos(ay), np.sin(ay)
+  cz, sz = np.cos(az), np.sin(az)
+  
+  R = np.array([[cz*cy, cz*sx*sy-sz*cx, cz*sx*sy+sz*sy],
+                [sz*cy, sz*sx*sy+cz*cx, sz*sx*sy-cz*sx],
+                [-sy, cy*sx, cy*cx]])
+  return R
 
 
-
-path = '.\\data\\pcd_bremen\\pcd_bremen\\scan_001.pcd'
-pc = pcd.point_cloud_from_path(path)
-meta = pc.get_metadata()
-trans = np.array(meta['viewpoint'][:3])
-rot = quaternion_rotation_matrix(meta['viewpoint'][3:]).T
-
-cloud = np.vstack([pc.pc_data['x'], pc.pc_data['y'], pc.pc_data['z']])
+def add_noise(pc, mean, std):
+  return pc + np.random.normal(loc=mean, scale=std, size=pc.shape)
 
 
-rotated = rot.T @ cloud + trans.reshape(-1,1)
-
-pc.pc_data['x'] = rotated[0,:]
-pc.pc_data['y'] = rotated[1,:]
-pc.pc_data['z'] = rotated[2,:]
-
-path = '.\\data\\pcd_bremen\\my_bremen.pcd'
-pc.save_pcd(path)
-
-
+def save_whole_cloud(paths_in, path_out):
+  start = True
+  whole = None
+  for path_in in paths_in:
+    pc = pcd.point_cloud_from_path(path_in)
+    meta = pc.get_metadata()
+    trans = np.array(meta['viewpoint'][:3])
+    rot = quaternion_rotation_matrix(meta['viewpoint'][3:]).T
+    
+    cloud = np.vstack([pc.pc_data['x'], pc.pc_data['y'], pc.pc_data['z']])
+    
+    rotated = rot.T @ cloud + trans.reshape(-1,1)
+    
+    pc.pc_data['x'] = rotated[0,:]
+    pc.pc_data['y'] = rotated[1,:]
+    pc.pc_data['z'] = rotated[2,:]
+    if start:
+      start = False
+      whole = pc
+    else:
+      whole = pcd.cat_point_clouds(whole, pc)
+      
+  whole.save_pcd(path_out)
+  
+  
     
