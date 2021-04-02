@@ -13,9 +13,9 @@ The original and the python implementations are tested in the main.ipynb. It can
 `pypcd` is not mine. I took it from [this](https://github.com/dimatura/pypcd) repository, but I had to modify the code to be able to use it.
 To be able to use `utils_pcd.py` you need to enter the folder and run 
 
-`
+``
 setup.py build
 setup.py install
-`
+``
 
 This should install the library using the file I modified.
