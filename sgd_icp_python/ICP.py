@@ -73,7 +73,7 @@ def best_rigid_transform(data, ref):
     return R, T.reshape(-1,1)
 
 
-def icp_point_to_point(data, ref, max_iter, RMS_threshold):
+def icp_point_to_point(data, ref, max_iter, RMS_threshold, show_progress=False):
     '''
     Iterative closest point algorithm with a point to point strategy.
     Inputs :
@@ -111,10 +111,11 @@ def icp_point_to_point(data, ref, max_iter, RMS_threshold):
         T_list.append(T)
         rms = RMS(data_aligned, ref[:,ind])
         RMS_list.append(rms)
+        if show_progress: print('{:.3f}'.format(rms))
         if rms < RMS_threshold: break
     return data_aligned, R_list, T_list, neighbors_list, RMS_list
 
-def icp_point_to_point_fast(data, ref, max_iter, RMS_threshold, sampling_limit, resample=False):
+def icp_point_to_point_fast(data, ref, max_iter, RMS_threshold, sampling_limit, resample=False, show_progress=False):
     '''
     Iterative closest point algorithm with a point to point strategy.
     Inputs :
@@ -161,10 +162,10 @@ def icp_point_to_point_fast(data, ref, max_iter, RMS_threshold, sampling_limit, 
         ind = tree.query(data_aligned.T, return_distance=False).squeeze()
         rms = RMS(data_aligned, ref[:,ind])
         RMS_list.append(rms)
+        if show_progress: print('{:.3f}'.format(rms))
         if rms < RMS_threshold: break
 
     return data_aligned, R_list, T_list, neighbors_list, RMS_list
-
 
 
 def RMS(c1, c2):
