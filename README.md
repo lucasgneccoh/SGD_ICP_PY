@@ -1,4 +1,4 @@
-# SGD_ICP
+# SGD_ICP_PY
 Final project for the class Nuages de points 3D. Python implementation of sgd_icp from the article "Speeding up ICP using Stochastic Gradient Descent" F. Afzal Maken, F. Ramos, L. Ott IEEE International Conference on Robotics Automation, 2019 available [here](https://arxiv.org/abs/1907.09133)
 
 The link to the original implementation is [here](https://bitbucket.org/fafz/sgd_icp/src/master/).  
