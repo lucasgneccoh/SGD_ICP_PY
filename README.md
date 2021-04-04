@@ -5,7 +5,7 @@ The link to the original implementation is [here](https://bitbucket.org/fafz/sgd
 
 The original and the python implementations are tested in the main.ipynb. It can be accesed using the following badge
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://github.com/lucasgneccoh/SGD_ICP/blob/main/main.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://github.com/lucasgneccoh/SGD_ICP/blob/main/main_final.ipynb)
 
 
 # Remarks
